@@ -156,4 +156,19 @@ public class KhachHangServiceImpl implements KhachHangService {
         }
         return false;
     }
+
+    @Override
+    public boolean status(long khachHangId) {
+        KhachHang khachHang = khachHangRepository.findById(khachHangId).orElse(null);
+        if (khachHang != null) {
+            if(khachHang.isTrangThai()){
+                khachHang.setTrangThai(false);
+            }else{
+                khachHang.setTrangThai(true);
+            }
+            khachHangRepository.save(khachHang);
+            return true;
+        }
+        return false;
+    }
 }

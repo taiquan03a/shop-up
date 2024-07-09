@@ -85,10 +85,10 @@
                     <div class="w-100 first">
                         <div>
                             Trạng thái:
-                            <select name="status" id="status">
-                                <option value="0">Tất cả</option>
+                            <select name="status" id="status" onchange="filterTable()">
+                                <option value="">Tất cả</option>
                                 <option value="1">Hoạt động</option>
-                                <option value="1">Ngừng hoạt động</option>
+                                <option value="0">Ngừng hoạt động</option>
                             </select>
                         </div>
                         <div class="d-flex justify-content-between gap-4">
@@ -135,7 +135,9 @@
                         <td>${khachHang.gioiTinh}</td>
                         <td>${khachHang.trangThai ? 'Hoạt động':'Ngừng hoạt động'}</td>
 
-                        <td style="text-align: center;"><a href="/khach-hang/${khachHang.ID}"><i class="fa-solid fa-pen-to-square" style="color: purple; font-size: 18px;"></i></a></td>
+                        <td style="text-align: center;"><a href="/khach-hang/${khachHang.ID}"><i class="fa-solid fa-pen-to-square" style="color: purple; font-size: 18px;"></i></a>
+                        <a style="margin-left: 6px" href="status/${khachHang.ID}"><i class="fa-solid fa-ban" style="color: red; font-size: 18px;"></i></a>
+                        </td>
                     </tr>
                     </c:forEach>
 
@@ -168,5 +170,28 @@
             infoEmpty: "Không có khách hàng nào",
         }
     });
+</script>
+<script>
+    function filterTable() {
+        var select = document.getElementById("status");
+        var filter = select.value;
+        var table = document.getElementById("example");
+        var tr = table.getElementsByTagName("tr");
 
+        for (var i = 1; i < tr.length; i++) {
+            var td = tr[i].getElementsByTagName("td")[7];
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                if (filter === "") {
+                    tr[i].style.display = "";
+                } else if (filter === "1" && txtValue === "Hoạt động") {
+                    tr[i].style.display = "";
+                } else if (filter === "0" && txtValue === "Ngừng hoạt động") {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
 </script>

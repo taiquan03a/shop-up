@@ -2,6 +2,7 @@ package com.datn.sd43_datn.controller;
 
 import com.datn.sd43_datn.dto.KhachHangDto;
 import com.datn.sd43_datn.entity.DiaChi;
+import com.datn.sd43_datn.entity.KhachHang;
 import com.datn.sd43_datn.repository.DiaChiRepository;
 import com.datn.sd43_datn.request.CreateKhachHang;
 import com.datn.sd43_datn.request.DiaChiRequest;
@@ -67,5 +68,10 @@ public class KhachHangController {
         System.out.println(khachHangDto);
         khachHangService.editKhachHang(khachHangDto,id);
         return "redirect:/khach-hang/"+id;
+    }
+    @GetMapping("/status/{id}")
+    public String status(@PathVariable long id, Model model) {
+        khachHangService.status(id);
+        return "redirect:/khach-hang/index";
     }
 }

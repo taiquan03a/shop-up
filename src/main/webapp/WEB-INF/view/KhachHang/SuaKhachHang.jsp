@@ -105,9 +105,9 @@
                             </div>
                             <div class="type d-flex gap-2 align-items-center" style="font-size: 14px;">
                                 <div style="font-weight: 700; margin-bottom: 4px;">Giới tính:</div>
-                                <input type="radio" id="css" name="gioiTinh" value="1" required>
+                                <input <c:if test="${khachHang.gioiTinh.equals('1')}"> checked </c:if> type="radio" id="css" name="gioiTinh" value="1" required>
                                 <label  for="css">Nam</label>
-                                <input type="radio" id="javascript" name="gioiTinh" value="0" required>
+                                <input <c:if test="${khachHang.gioiTinh.equals('0')}"> checked </c:if> type="radio" id="javascript" name="gioiTinh" value="0" required>
                                 <label  for="javascript">Nữ</label>
                             </div>
                             <div class="mb-3">
@@ -301,7 +301,7 @@
 
     <c:forEach var="diachi" items="${khachHang.diaChiList}" varStatus="status">
     $('#diaChi${diachi.ID}').val('${diachi.soNha}');
-    getName((${diachi.idPhuong}).toString().length === 4 ? '0' + ${diachi.idPhuong} : ${diachi.idPhuong}, ${diachi.ID})
+    getName('${diachi.idPhuong}', '${diachi.ID}')
     </c:forEach>
 
 </script>
