@@ -127,7 +127,7 @@
                     <tr>
                         <td>${status.index +1}</td>
                             <%--                        <td>${hoaDon.ID}</td>--%>
-                        <td>${khachHang.ID}</td>
+                        <td>${khachHang.maKhachHang}</td>
                         <td>${khachHang.email}</td>
                         <td>${khachHang.tenKhachHang}</td>
                         <td>${khachHang.ngayTao}</td>

@@ -7,11 +7,15 @@ import com.datn.sd43_datn.repository.DiaChiRepository;
 import com.datn.sd43_datn.repository.KhachHangRepository;
 import com.datn.sd43_datn.request.CreateKhachHang;
 import com.datn.sd43_datn.request.DiaChiRequest;
+import com.datn.sd43_datn.request.KhachHangRequest;
 import com.datn.sd43_datn.request.TaoKhachHangRequest;
 import com.datn.sd43_datn.service.KhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -24,8 +28,43 @@ public class KhachHangServiceImpl implements KhachHangService {
 
 
     @Override
-    public List<KhachHang> getKhachHang() {
-        return khachHangRepository.findAll();
+    public List<KhachHangRequest> getKhachHang() {
+        List<KhachHang> khachHangList =  khachHangRepository.findAll();
+        List<KhachHangRequest> khachHangRequestList = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+
+        for (KhachHang khachHang : khachHangList) {
+            String formattedDate = sdf.format(khachHang.getNgayTao());
+            String maKhachHang = "";
+            if (khachHang.getID() < 1000) {
+                if (khachHang.getID() < 10) {
+                    maKhachHang = "KH00" + String.valueOf(khachHang.getID());
+                } else if (khachHang.getID() < 100) {
+                    maKhachHang = "KH0" + String.valueOf(khachHang.getID());
+                }
+            } else {
+                maKhachHang = "KH" + String.valueOf(khachHang.getID());
+            }
+            String gioiTinh = "";
+            if(khachHang.getGioiTinh().equals("1")){
+                gioiTinh = "nam";
+            }else{
+                gioiTinh = "nữ";
+            }
+            KhachHangRequest khachHangRequest = KhachHangRequest.builder()
+                    .ID(khachHang.getID())
+                    .tenKhachHang(khachHang.getTenKhachHang())
+                    .email(khachHang.getEmail())
+                    .ngayTao(formattedDate)
+                    .maKhachHang(maKhachHang)
+                    .gioiTinh(gioiTinh)
+                    .sdt(khachHang.getSdt())
+                    .trangThai(khachHang.isTrangThai())
+                    .build();
+            khachHangRequestList.add(khachHangRequest);
+        }
+        khachHangRequestList.sort(Comparator.comparingLong(KhachHangRequest::getID).reversed());
+        return khachHangRequestList;
     }
 
     @Override
@@ -69,15 +108,9 @@ public class KhachHangServiceImpl implements KhachHangService {
 
     @Override
     public boolean addKhachHang(CreateKhachHang createKhachHang) {
-        String gioiTinh = "";
-        if (createKhachHang.getGioiTinh().equals("1")) {
-            gioiTinh = "nam";
-        }else{
-            gioiTinh = "nữ";
-        }
         KhachHang khachHang = KhachHang.builder()
                 .tenKhachHang(createKhachHang.getTenKhachHang())
-                .gioiTinh(gioiTinh)
+                .gioiTinh(createKhachHang.getGioiTinh())
                 .email(createKhachHang.getEmail())
                 .anh(createKhachHang.getAnh())
                 .sdt(createKhachHang.getSdt())

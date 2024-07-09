@@ -1,18 +1,18 @@
 package com.datn.sd43_datn.request;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @Builder
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class KhachHangRequest {
-    private Long id;
+    private Long ID;
     private String maKhachHang;
     private String email;
-    private String hoTen;
-    private String ngaySinh;
+    private String tenKhachHang;
+    private String ngayTao;
     private String sdt;
     private String gioiTinh;
     private Boolean trangThai;

@@ -90,7 +90,7 @@
                 </div>
                 <div class="row d-flex justify-content-between">
                     <div class="col-4">
-                        <form:form action="create" method="post" modelAttribute="">
+                        <form:form action="edit/${khachHang.ID}" method="post" modelAttribute="">
                             <div class="mb-3">
                                 <label for="exampleInputName" class="form-label">Tên khách hàng</label>
                                 <input type="text" name="tenKhachHang" class="form-control" id="exampleInputName" value="${khachHang.tenKhachHang}" required>
@@ -114,7 +114,7 @@
                                 <label for="exampleInputPassword1" class="form-label">Số điện thoại</label>
                                 <input type="number" name="sdt" value="${khachHang.sdt}" class="form-control" id="total_price" required>
                             </div>
-                            <button id="btn-submit" style="background-color: #ffa500;" type="submit" class="btn btn-primary">Thêm khách hàng</button>
+                            <button id="btn-submit" style="background-color: #ffa500;" type="submit" class="btn btn-primary">Sửa khách hàng</button>
                         </form:form>
                     </div>
 
@@ -168,7 +168,7 @@
                             <div class="ms-3 line-bottom pb-4">
                                 <div class="d-flex justify-content-between">
                                     <h5>Địa chỉ ${status.index +1}</h5>
-                                    <button type="button" class="btn btn-danger">Xóa</button>
+                                    <a href="delete/${diachi.ID}"><button type="button" class="btn btn-danger">Xóa</button></a>
 
                                 </div>
 
@@ -207,7 +207,6 @@
 </html>
 
 <script>
-    getName('00091')
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
             $('#sidebar').toggleClass('active');
@@ -301,8 +300,8 @@
     }
 
     <c:forEach var="diachi" items="${khachHang.diaChiList}" varStatus="status">
-    $('#diaChi' + ${diachi.ID}).val(${diachi.soNha});
-    getName(${diachi.idPhuong}, ${diachi.ID})
+    $('#diaChi${diachi.ID}').val('${diachi.soNha}');
+    getName((${diachi.idPhuong}).toString().length === 4 ? '0' + ${diachi.idPhuong} : ${diachi.idPhuong}, ${diachi.ID})
     </c:forEach>
 
 </script>
