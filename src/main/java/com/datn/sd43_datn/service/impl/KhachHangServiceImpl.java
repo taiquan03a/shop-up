@@ -112,6 +112,8 @@ public class KhachHangServiceImpl implements KhachHangService {
         KhachHang khachHang = khachHangRepository.findById(khachHangId).orElse(null);
         if (khachHang != null) {
             DiaChi diaChi = DiaChi.builder()
+                    .khachHang(khachHang)
+                    .soNha(diaChiRequest.getSoNha())
                     .idPhuong(diaChiRequest.getPhuongId())
                     .trangThai("true")
                     .ghiChu(null)

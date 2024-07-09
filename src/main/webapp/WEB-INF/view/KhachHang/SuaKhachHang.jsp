@@ -88,9 +88,9 @@
                 <div class="d-flex justify-content-between line-bottom">
                     <h3 style=" padding-bottom: 15px;">Lưu</h3>
                 </div>
-                <form:form action="create" id="myForm" method="post" modelAttribute="">
-                    <div class="row d-flex justify-content-between">
-                        <div class="col-4">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-4">
+                        <form:form action="create" method="post" modelAttribute="">
                             <div class="mb-3">
                                 <label for="exampleInputName" class="form-label">Tên khách hàng</label>
                                 <input type="text" name="tenKhachHang" class="form-control" id="exampleInputName" value="${khachHang.tenKhachHang}" required>
@@ -115,56 +115,56 @@
                                 <input type="number" name="sdt" value="${khachHang.sdt}" class="form-control" id="total_price" required>
                             </div>
                             <button id="btn-submit" style="background-color: #ffa500;" type="submit" class="btn btn-primary">Thêm khách hàng</button>
+                        </form:form>
+                    </div>
 
-                        </div>
+                    <div class="col-6">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h3 style="color: red">Danh sách địa chỉ</h3>
+                            <button type="button" data-toggle="modal" data-target="#myModal" style="color: #ffa500 !important; margin: 0 !important;" class="function">Thêm địa chỉ</button>
 
-                        <div class="col-6">
-                            <div class="d-flex justify-content-between mb-3">
-                                <h3 style="color: red">Danh sách địa chỉ</h3>
-                                <button type="button" data-toggle="modal" data-target="#myModal" style="color: #ffa500 !important; margin: 0 !important;" class="function">Thêm địa chỉ</button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-log modal-dialog-centered mt-4" role="document">
-                                        <div class="modal-content">
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                                    <div class="modal-content">
+                                        <form:form action="${khachHang.ID}" modelAttribute="diaChiRequest" method="post">
                                             <div class="modal-header d-flex justify-content-between">
                                                 <h4 class="modal-title" id="myModalLabel">Thông tin</h4>
                                             </div>
                                             <div class="modal-body">
-                                                <form:form action="index" modelAttribute="diaChiRequest" method="post">
-                                                    <div class="mb-3">
-                                                        <label for="thanhPho" class="form-label">Tỉnh/Thành phố</label>
-                                                        <select id="thanhPho" name="thanhPho" class="selected w-100 p-2" required>
-                                                        </select>
+                                                <div class="mb-3">
+                                                    <label for="thanhPho" class="form-label">Tỉnh/Thành phố</label>
+                                                    <select id="thanhPho" name="thanhPho" class="selected w-100 p-2" required>
+                                                    </select>
 
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="huyen" class="form-label">Quận/Huyện</label>
-                                                        <select id="huyen" name="huyen" class="selected w-100 p-2" required>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="xa" class="form-label">Xã/Phường</label>
-                                                        <select id="xa" name="phuongId" class="selected w-100 p-2" required>
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="huyen" class="form-label">Địa chỉ</label>
-                                                        <input type="text" name="soNha" class="form-control" id="diaChi" required>
-                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="huyen" class="form-label">Quận/Huyện</label>
+                                                    <select id="huyen" name="huyen" class="selected w-100 p-2" required>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="xa" class="form-label">Xã/Phường</label>
+                                                    <select id="xa" name="phuongId" class="selected w-100 p-2" required>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="huyen" class="form-label">Địa chỉ</label>
+                                                    <input type="text" name="soNha" class="form-control" id="diaChi" required>
+                                                </div>
 
-                                                </form:form>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="submit" class="btn btn-secondary" data-dismiss="modal">Lưu</button>
+                                                <button type="submit" class="btn btn-secondary">Lưu</button>
                                             </div>
-                                        </div>
+                                        </form:form>
                                     </div>
                                 </div>
-
-
                             </div>
-                            <c:forEach var="diachi" items="${khachHang.diaChiList}" varStatus="status">
+
+
+                        </div>
+                        <c:forEach var="diachi" items="${khachHang.diaChiList}" varStatus="status">
                             <div class="ms-3 line-bottom pb-4">
                                 <div class="d-flex justify-content-between">
                                     <h5>Địa chỉ ${status.index +1}</h5>
@@ -174,29 +174,28 @@
 
                                 <div class="mb-3">
                                     <label for="thanhPho" class="form-label">Tỉnh/Thành phố</label>
-                                    <input type="text" name="thanhPho1" class="form-control" id="thanhPho1" readonly>
+                                    <input type="text" name="thanhPho${diachi.ID}" class="form-control" id="thanhPho${diachi.ID}" readonly>
 
 
                                 </div>
                                 <div class="mb-3">
                                     <label for="huyen" class="form-label">Quận/Huyện</label>
-                                    <input type="text" name="huyen1" class="form-control" id="huyen1" readonly>
+                                    <input type="text" name="huyen${diachi.ID}" class="form-control" id="huyen${diachi.ID}" readonly>
 
                                 </div>
                                 <div class="mb-3">
                                     <label for="xa" class="form-label">Xã/Phường</label>
-                                    <input type="text" name="xa1" class="form-control" id="xa1" readonly>
+                                    <input type="text" name="xa${diachi.ID}" class="form-control" id="xa${diachi.ID}" readonly>
                                 </div>
                                 <div class="mb-3">
                                     <label for="huyen" class="form-label">Địa chỉ</label>
-                                    <input type="text" name="diaChi1" class="form-control" id="diaChi1" required>
+                                    <input type="text" name="diaChi${diachi.ID}" class="form-control" id="diaChi${diachi.ID}" readonly>
                                 </div>
                             </div>
-                            </c:forEach>
-                        </div>
-
+                        </c:forEach>
                     </div>
-                </form:form>
+
+                </div>
             </div>
 
         </div>
@@ -224,17 +223,18 @@
         url: 'https://esgoo.net/api-tinhthanh/1/0.htm',
         method: 'GET',
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             var $province = $('#thanhPho');
             $province.append('<option value="">Chọn tỉnh Tỉnh/Thành phố </option>');
-            $.each(data['data'], function(index, value) {
+            $.each(data['data'], function (index, value) {
                 $province.append('<option value="' + value.id + '">' + value.name + '</option>');
             });
         },
-        error: function() {
+        error: function () {
             alert('Không thể lấy dữ liệu tỉnh thành.');
         }
     });
+
     function populateDistricts(provinceId) {
         var $huyen = $('#huyen');
         $huyen.empty();
@@ -242,13 +242,13 @@
             url: 'https://esgoo.net/api-tinhthanh/2/' + provinceId + '.htm',
             method: 'GET',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 $huyen.append('<option value="">Chọn Quận/Huyện </option>');
-                $.each(data['data'], function(index, value) {
+                $.each(data['data'], function (index, value) {
                     $huyen.append('<option value="' + value.id + '">' + value.name + '</option>');
                 });
             },
-            error: function() {
+            error: function () {
                 alert('Không thể lấy dữ liệu huyện.');
             }
         });
@@ -261,48 +261,54 @@
             url: 'https://esgoo.net/api-tinhthanh/3/' + districtId + '.htm',
             method: 'GET',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 $xa.append('<option value="">Xã/Phường </option>');
-                $.each(data['data'], function(index, value) {
+                $.each(data['data'], function (index, value) {
                     $xa.append('<option value="' + value.id + '">' + value.name + '</option>');
                 });
             },
-            error: function() {
+            error: function () {
                 alert('Không thể lấy dữ liệu xa.');
             }
         });
     }
 
-    $('#thanhPho').on('change', function() {
+    $('#thanhPho').on('change', function () {
         var selectedProvinceId = $(this).val();
         populateDistricts(selectedProvinceId);
     });
 
-    $('#huyen').on('change', function() {
+    $('#huyen').on('change', function () {
         var selectedDistrictId = $(this).val();
         populateWards(selectedDistrictId);
     });
 
-    function getName(wardId){
+    function getName(wardId, id) {
         $.ajax({
             url: 'https://esgoo.net/api-tinhthanh/5/' + wardId + '.htm',
             method: 'GET',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 data = data['data'].name.split(',')
-                $('#huyen1').val(data[1]);
-                $('#xa1').val(data[0]);
-                $('#thanhPho1').val(data[2]);
+                $('#huyen' + id).val(data[1]);
+                $('#xa' + id).val(data[0]);
+                $('#thanhPho' + id).val(data[2]);
             },
-            error: function() {
+            error: function () {
                 alert('Không thể lấy dữ liệu xa.');
             }
         });
     }
+
+    <c:forEach var="diachi" items="${khachHang.diaChiList}" varStatus="status">
+    $('#diaChi' + ${diachi.ID}).val(${diachi.soNha});
+    getName(${diachi.idPhuong}, ${diachi.ID})
+    </c:forEach>
+
 </script>
 
 <style>
-    .modal-log{
+    .modal-log {
         width: 600px !important;
     }
 </style>

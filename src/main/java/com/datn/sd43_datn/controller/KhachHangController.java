@@ -40,10 +40,11 @@ public class KhachHangController {
         model.addAttribute("khachHang", khachHangService.getKhachHangById(id));
         return "KhachHang/SuaKhachHang";
     }
-    @PostMapping("/index")
-    public String createDiaChi(@ModelAttribute DiaChiRequest diaChiRequest, Model model) {
+    @PostMapping("/{id}")
+    public String createDiaChi(@PathVariable long id,@ModelAttribute DiaChiRequest diaChiRequest, Model model) {
         model.addAttribute("khachHangs", khachHangService.getKhachHang());
         System.out.println(diaChiRequest);
+        khachHangService.addDiaChi(id,diaChiRequest);
         return "KhachHang/KhachHang";
     }
 }
