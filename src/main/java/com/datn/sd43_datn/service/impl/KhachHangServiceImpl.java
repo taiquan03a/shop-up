@@ -171,4 +171,52 @@ public class KhachHangServiceImpl implements KhachHangService {
         }
         return false;
     }
+
+    @Override
+    public List<KhachHangRequest> filter(String search) {
+        String searchLowerCase = search.toLowerCase();
+        List<KhachHang> khachHangList = khachHangRepository.findAll();
+        List<KhachHangRequest> khachHangRequestList = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+        for (KhachHang khachHang : khachHangList) {
+            String gioiTinh = "";
+            if(khachHang.getGioiTinh().equals("1")){
+                gioiTinh = "nam";
+            }else{
+                gioiTinh = "nữ";
+            }
+            if(khachHang.getID().equals(searchLowerCase)||
+                    khachHang.getTenKhachHang().toLowerCase().contains(searchLowerCase) ||
+                    khachHang.getEmail().contains(searchLowerCase) ||
+                    khachHang.getNgayTao().equals(searchLowerCase) ||
+                    khachHang.getSdt().contains(searchLowerCase) ||
+                    gioiTinh.contains(searchLowerCase)
+            ){
+                String formattedDate = sdf.format(khachHang.getNgayTao());
+                String maKhachHang = "";
+                if (khachHang.getID() < 1000) {
+                    if (khachHang.getID() < 10) {
+                        maKhachHang = "KH00" + String.valueOf(khachHang.getID());
+                    } else if (khachHang.getID() < 100) {
+                        maKhachHang = "KH0" + String.valueOf(khachHang.getID());
+                    }
+                } else {
+                    maKhachHang = "KH" + String.valueOf(khachHang.getID());
+                }
+                KhachHangRequest khachHangRequest = KhachHangRequest.builder()
+                        .ID(khachHang.getID())
+                        .tenKhachHang(khachHang.getTenKhachHang())
+                        .email(khachHang.getEmail())
+                        .ngayTao(formattedDate)
+                        .maKhachHang(maKhachHang)
+                        .gioiTinh(gioiTinh)
+                        .sdt(khachHang.getSdt())
+                        .trangThai(khachHang.isTrangThai())
+                        .build();
+                khachHangRequestList.add(khachHangRequest);
+            }
+        }
+        khachHangRequestList.sort(Comparator.comparingLong(KhachHangRequest::getID).reversed());
+        return khachHangRequestList;
+    }
 }

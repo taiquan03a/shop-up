@@ -74,4 +74,9 @@ public class KhachHangController {
         khachHangService.status(id);
         return "redirect:/khach-hang/index";
     }
+    @GetMapping("filter")
+    public String filter(Model model,@RequestParam String search) {
+        model.addAttribute("khachHangs", khachHangService.filter(search));
+        return "KhachHang/KhachHang";
+    }
 }

@@ -16,4 +16,5 @@ public interface KhachHangService {
     boolean deleteDiaChi(long diaChiId);
     boolean addDiaChi(long khachHangId, DiaChiRequest diaChiRequest);
     boolean status(long khachHangId);
+    List<KhachHangRequest> filter(String search);
 }
