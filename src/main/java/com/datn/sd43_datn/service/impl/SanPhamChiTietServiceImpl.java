@@ -67,8 +67,8 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
     }
 
     @Override
-    public Optional<SanPhamChiTiet> findById(Long integer) {
-        return sanphamchitietEntityRepository.findById(integer);
+    public SanPhamChiTiet findById(Long integer) {
+        return sanphamchitietEntityRepository.findById(integer).get();
     }
 
     @Override

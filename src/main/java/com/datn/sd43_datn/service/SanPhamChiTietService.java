@@ -18,7 +18,7 @@ public interface SanPhamChiTietService {
 
     <S extends SanPhamChiTiet> S save(S entity);
 
-    Optional<SanPhamChiTiet> findById(Long integer);
+    SanPhamChiTiet findById(Long integer);
 
     void deleteById(Long integer);
 

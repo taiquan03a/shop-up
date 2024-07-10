@@ -137,9 +137,9 @@ public class SanPhamChiTietController {
         return "redirect:/SanPhamChiTiet/list";
     }
 
-    @GetMapping("/{id}")
-    public String getId(Model model, @PathVariable Long id) {
-        Optional<SanPhamChiTiet> spct = SanPhamChiTietServiceIpm.findById(id);
+    @GetMapping("getId")
+    public String getId(Model model, @RequestParam Long id) {
+        SanPhamChiTiet spct = SanPhamChiTietServiceIpm.findById(id);
         List<Anh> anh = SanPhamChiTietServiceIpm.findAnhCreateAt();
         List<ChatLieu> chatlieu = SanPhamChiTietServiceIpm.findChatLieuCreateAt();
         List<CoAo> coao = SanPhamChiTietServiceIpm.findCoAoCreateAt();
@@ -161,8 +161,8 @@ public class SanPhamChiTietController {
         model.addAttribute("coao", coao);
         model.addAttribute("chatlieu", chatlieu);
         model.addAttribute("sanpham", sanpham);
-        if (spct.isPresent()) {
-            model.addAttribute("spct", spct.get());
+        if (spct != null) {
+            model.addAttribute("spct", spct);
         } else {
             model.addAttribute("spct", new SanPhamChiTiet());
         }
@@ -170,10 +170,24 @@ public class SanPhamChiTietController {
     }
 
 
-    @PostMapping("/update")
-    public String update(RedirectAttributes redirectAttributes, @ModelAttribute("spct") SanPhamChiTiet spct) {
+    @PostMapping("/update/{id}")
+    public String update(RedirectAttributes redirectAttributes,@PathVariable long id, @ModelAttribute("spct") SanPhamChiTiet spct) {
         try {
-            SanPhamChiTietServiceIpm.save(spct);
+            SanPhamChiTiet sanPhamChiTiet = SanPhamChiTietServiceIpm.findById(id);
+            sanPhamChiTiet.setAnh(spct.getAnh());
+            sanPhamChiTiet.setSanPham(spct.getSanPham());
+            sanPhamChiTiet.setHoaTiet(spct.getHoaTiet());
+            sanPhamChiTiet.setCoAo(spct.getCoAo());
+            sanPhamChiTiet.setSoLuong(spct.getSoLuong());
+            sanPhamChiTiet.setDangAo(spct.getDangAo());
+            sanPhamChiTiet.setChatLieu(spct.getChatLieu());
+            sanPhamChiTiet.setGiaBan(spct.getGiaBan());
+            sanPhamChiTiet.setKichCo(spct.getKichCo());
+            sanPhamChiTiet.setMauSac(spct.getMauSac());
+            sanPhamChiTiet.setGiaNhap(spct.getGiaNhap());
+            sanPhamChiTiet.setTayAo(spct.getTayAo());
+            sanPhamChiTiet.setThuongHieu(spct.getThuongHieu());
+            SanPhamChiTietServiceIpm.save(sanPhamChiTiet);
             redirectAttributes.addFlashAttribute("successMessage", "Cập nhật thành công");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Lỗi ");
@@ -218,6 +232,138 @@ public class SanPhamChiTietController {
         return "redirect:/SanPhamChiTiet/list";
     }
 
+
+    //add chi tiet update
+/////////////////////////////////////////////
+
+    @GetMapping("/addAnh/{id}")
+    public String addAnhup(@PathVariable long id, Model model){
+        Anh anh =new Anh();
+        model.addAttribute("anh",anh);
+        return "SanPhamChiTiet/AddSpct/addAnh";
+    }
+
+    @PostMapping("/addAnhup/{id}")
+    public String Addup(@ModelAttribute("anh") Anh anh,@PathVariable long id, @RequestParam("photo")MultipartFile multipartFile) throws Exception{
+        String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        anh.setAnh(fileName);
+        System.out.println(fileName);
+        anhServiceIpm.save(anh);
+        String upload="src/main/webapp/img";
+        FileUploadUtil.saveFile(upload,fileName,multipartFile);
+        anhServiceIpm.save(anh);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
+    @GetMapping("/addChatLieu/{id}")
+    public String addChatLieuUP(@PathVariable long id,Model model){
+        ChatLieu chatlieu =new ChatLieu();
+        model.addAttribute("chatlieu",chatlieu);
+        return "SanPhamChiTiet/AddSpct/addChatLieu";
+    }
+
+    @PostMapping("/addChatLieu/{id}")
+    public String AddUp(@ModelAttribute("chatlieu") ChatLieu chatlieu,@PathVariable long id){
+        chatLieuServiceIpm.save(chatlieu);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
+    @GetMapping("/addCoAo/{id}")
+    public String addCoAoUp(@PathVariable long id,Model model){
+        CoAo coao =new CoAo();
+        model.addAttribute("coao",coao);
+        return "SanPhamChiTiet/AddSpct/addCoAo";
+    }
+
+    @PostMapping("/addCoAo/{id}")
+    public String Add(@ModelAttribute("coao") CoAo coao,@PathVariable long id){
+        CoAoServiceIpm.save(coao);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
+    @GetMapping("/addDangAo/{id}")
+    public String addDangAoUp(@PathVariable long id,Model model){
+        DangAo dangao =new DangAo();
+        model.addAttribute("dangao",dangao);
+        return "SanPhamChiTiet/AddSpct/addDangAo";
+    }
+
+    @PostMapping("/addDangAo/{id}")
+    public String Add(@ModelAttribute("dangao") DangAo dangao,@PathVariable long id){
+        DangAoServiceIpm.save(dangao);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
+    @GetMapping("/addHoaTiet/{id}")
+    public String addHoaTietUp(@PathVariable long id,Model model){
+        HoaTiet hoatiet =new HoaTiet();
+        model.addAttribute("hoatiet",hoatiet);
+        return "SanPhamChiTiet/AddSpct/addHoaTiet";
+    }
+
+    @PostMapping("/addHoaTiet/{id}")
+    public String Add(@ModelAttribute("hoatiet") HoaTiet hoatiet,@PathVariable long id){
+        HoaTietServiceIpm.save(hoatiet);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
+    @GetMapping("/addKichCo/{id}")
+    public String addkichCoUp(@PathVariable long id,Model model){
+        KichCo kichco =new KichCo();
+        model.addAttribute("kichco",kichco);
+        return "SanPhamChiTiet/AddSpct/addKichCo";
+    }
+
+    @PostMapping("/addKichCo/{id}")
+    public String Add(@ModelAttribute("kichco") KichCo kichco, @PathVariable long id){
+        KichCoServiceIpm.save(kichco);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
+    @GetMapping("/addMauSac/{id}")
+    public String addMauSacUp(@PathVariable long id,Model model){
+        MauSac mausac =new MauSac();
+        model.addAttribute("mausac",mausac);
+        return "SanPhamChiTiet/AddSpct/addMauSac";
+    }
+
+    @PostMapping("/addMauSac/{id}")
+    public String Add(@ModelAttribute("mausac") MauSac mausac,@PathVariable long id){
+        MauSacServiceIpm.save(mausac);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
+
+    @GetMapping("/addSanPham/{id}")
+    public String addSanPhamUp(@PathVariable long id,Model model){
+        SanPham sanpham =new SanPham();
+        model.addAttribute("sanpham",sanpham);
+        return "SanPhamChiTiet/AddSpct/addSp";
+    }
+
+    @PostMapping("/addSanPham/{id}")
+    public String Add(@ModelAttribute("sanpham") SanPham sanpham,@PathVariable long id){
+
+        SanPhamServiceIpm.save(sanpham);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
+    @GetMapping("/addTayAo/{id}")
+    public String addTayAoUp(@PathVariable long id,Model model){
+        TayAo tayao =new TayAo();
+        model.addAttribute("tayao",tayao);
+        return "SanPhamChiTiet/AddSpct/addTayAo";
+    }
+
+    @PostMapping("/addTayAo/{id}")
+    public String Add(@ModelAttribute("tayao") TayAo tayao,@PathVariable long id){
+        TayAoServiceIpm.save(tayao);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
+    @GetMapping("/addThuongHieu/{id}")
+    public String addThuongHieuUp(@PathVariable long id,Model model){
+        ThuongHieu thuonghieu =new ThuongHieu();
+        model.addAttribute("thuonghieu",thuonghieu);
+        return "SanPhamChiTiet/AddSpct/addThuongHieu";
+    }
+
+    @PostMapping("/addThuongHieu/{id}")
+    public String Add(@ModelAttribute("thuonghieu") ThuongHieu thuonghieu,@PathVariable long id){
+        ThuongHieuServiceIpm.save(thuonghieu);
+        return "redirect:/SanPhamChiTiet/getId?id="+id;
+    }
 
     //add chi tiet
 /////////////////////////////////////////////
