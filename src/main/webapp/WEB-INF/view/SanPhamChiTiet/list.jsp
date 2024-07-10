@@ -149,26 +149,28 @@
                         <td><span><fmt:formatNumber value="${spct.giaBan}" type="number" groupingUsed="true" /></span></td>
                         <td>${spct.soLuong}</td>
                         <td>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center justify-content-center h-100">
                                 <c:choose>
                                     <c:when test="${spct.trangThai == 1}">
-                                        <a data-confirm-delete="Bạn có muốn đổi trạng thái?" onclick="return confirm(this.getAttribute('data-confirm-delete'))" href="${pageContext.request.contextPath}/SanPhamChiTiet/trangThai0?id=${spct.ID}">
+                                        <a data-confirm-delete="Bạn có muốn đổi trạng thái?" onclick="return confirm(this.getAttribute('data-confirm-delete'))" href="trangThai1?id=${spct.ID}">
                                             <i class="fa-solid fa-toggle-off fa-xl"></i>
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a data-confirm-delete="Bạn có muốn đổi trạng thái?" onclick="return confirm(this.getAttribute('data-confirm-delete'))" href="${pageContext.request.contextPath}/SanPhamChiTiet/trangThai1?id=${spct.ID}">
+                                        <a data-confirm-delete="Bạn có muốn đổi trạng thái?" onclick="return confirm(this.getAttribute('data-confirm-delete'))" href="trangThai1?id=${spct.ID}">
                                             <i class="fa-solid fa-toggle-on fa-xl"></i>
                                         </a>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
                         </td>
-                        <td class="d-flex justify-content-center">
-                            <a href="${pageContext.request.contextPath}/SanPhamChiTiet/getId?id=${spct.ID}" class="btn btn-warning mx-3">
-                                <i class="fa-solid fa-pencil"></i>
-                            </a>
-                        </td>
+                        <td style="vertical-align: middle; font-size: 22px;" ><a href="${pageContext.request.contextPath}/SanPhamChiTiet/getId?id=${spct.ID}"><i class="fa-solid fa-pen-to-square" style="color: purple; font-size: 18px;"></i></a></td>
+
+                            <%--                        <td class="d-flex justify-content-center">--%>
+                            <%--                            <a href="${pageContext.request.contextPath}/SanPhamChiTiet/getId?id=${spct.ID}" class="btn btn-warning mx-3">--%>
+                            <%--                                <i class="fa-solid fa-pencil"></i>--%>
+                            <%--                            </a>--%>
+                            <%--                        </td>--%>
                     </tr>
                     </c:forEach>
 

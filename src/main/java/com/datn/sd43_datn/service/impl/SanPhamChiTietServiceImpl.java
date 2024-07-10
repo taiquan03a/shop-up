@@ -121,8 +121,7 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
     }
     @Override
     public List<SanPham> findSanPhamCreateAt(){
-//        return sanphamEntityRepository.getCreateAt();
-            return null;
+       return sanphamEntityRepository.getCreateAt();
     }
     @Override
     public List<TayAo> findTayAoCreateAt(){
@@ -137,7 +136,14 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
 
     @Override
     public void findTrangThai1(Long id){
-        sanphamchitietEntityRepository.updateTrangThai1(id);
+        SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietRepository.findById(id).get();
+        if(sanPhamChiTiet.getTrangThai() == 0){
+            sanPhamChiTiet.setTrangThai(1);
+            sanPhamChiTietRepository.save(sanPhamChiTiet);
+        }else {
+            sanPhamChiTiet.setTrangThai(0);
+            sanPhamChiTietRepository.save(sanPhamChiTiet);
+        }
     }
     @Override
     public void findTrangThai0(Long id){

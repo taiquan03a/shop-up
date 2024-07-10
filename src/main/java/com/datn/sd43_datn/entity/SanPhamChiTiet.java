@@ -9,8 +9,7 @@ import lombok.*;
 @Table(name = "san_pham_chi_tiet")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @ToString
 @Builder
 public class SanPhamChiTiet {

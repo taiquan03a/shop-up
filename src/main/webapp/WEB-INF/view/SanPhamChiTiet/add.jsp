@@ -28,6 +28,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+    <style>
+        .input-group-text{
+            width: 23%;
+            margin-bottom: 10px;
+        }
+        .input-group-text a{
+            margin-bottom: 6px;
+        }
+    </style>
 </head>
 <body>
 <div class="wrapper">
@@ -80,6 +89,239 @@
 
         </div>
 
+        <section id="modal-for" class="p-0">
+            <%--Image--%>
+            <div class="modal fade" id="myModalAnh" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="addAnh" method="post" enctype="multipart/form-data">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title" id="myModalLabel">Thêm ảnh</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Ảnh</label>
+                                    <input type="file" accept="image/jpeg, image/png" name="photo" class="form-control" id="diaChi" required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+            <%--sản phẩm--%>
+            <div class="modal fade" id="myModalItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="" modelAttribute="diaChiRequest" method="post">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title">Thêm sản phẩm</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên sản phẩm</label>
+                                    <input type="text" name="input" class="form-control" required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+            <%--chất liệu--%>
+            <div class="modal fade" id="myModalMaterial" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="addChatLieu" modelAttribute="chatlieu" method="post">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title">Thêm chất liệu</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên chất liệu</label>
+                                    <input type="text" name="tenChatLieu" class="form-control"  required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+            <%--tay--%>
+            <div class="modal fade" id="myModalSleeve" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="addTayAo" modelAttribute="tayao" method="post">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title">Thêm kiểu tay áo</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên kiểu tay áo</label>
+                                    <input type="text" name="tenKieuTayAo" class="form-control"  required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+            <%--cổ--%>
+            <div class="modal fade" id="myModalCollar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="addCoAo" modelAttribute="coao" method="post">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title">Thêm kiểu cổ áo</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên kiểu cổ áo</label>
+                                    <input type="text" name="tenLoaiCoAo" class="form-control"  required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+            <%--Dáng--%>
+            <div class="modal fade" id="myModalDang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="addDangAo" modelAttribute="dangao" method="post">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title">Thêm kiểu dáng áo</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên kiểu dáng áo</label>
+                                    <input type="text" name="tenKieuDangAo" class="form-control"  required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+            <%--Họa tiết--%>
+            <div class="modal fade" id="myModalPatten" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="addHoaTiet" modelAttribute="hoatiet" method="post">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title">Thêm kiểu họa tiết</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên kiểu họa tiết</label>
+                                    <input type="text" name="tenHoaTiet" class="form-control"  required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+            <%--Kích cỡ--%>
+            <div class="modal fade" id="myModalSize" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="addKichCo" modelAttribute="kichco" method="post">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title">Thêm kích cỡ</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên kích cỡ</label>
+                                    <input type="text" name="tenKichCo" class="form-control"  required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+            <%--Màu sắc--%>
+            <div class="modal fade" id="myModalColor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="addMauSac" modelAttribute="mauSac" method="post">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title">Thêm màu sắc</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên màu sắc</label>
+                                    <input type="text" name="tenMauSac" class="form-control"  required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+            <%--Thương hiệu--%>
+            <div class="modal fade" id="myModalTrademark" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-log modal-dialog-centered mt-4" role="document">
+                    <div class="modal-content">
+                        <form:form action="addThuongHieu" modelAttribute="thuongHieu" method="post">
+                            <div class="modal-header d-flex justify-content-between">
+                                <h4 class="modal-title">Thêm thương hiệu</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên thương hiệu</label>
+                                    <input type="text" name="tenThuongHieu" class="form-control"  required>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-secondary">Lưu</button>
+                            </div>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
         <!-- content -->
         <div style="width: 100%; background-color: #eee; padding: 20px;">
 
@@ -93,161 +335,170 @@
                     <div class="col-4">
                         <label>Ảnh</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon1">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addAnh" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="anh.ID">
-                                <c:forEach var="anh" items="${anh}" varStatus="status">
-                                    <c:if test="${anh.trangThai == 0}">
-                                        <option value="${anh.ID}">${anh.anh} - ${anh.moTa}</option>
+                            <select aria-label="Default select example" name="anh">
+                                <c:forEach var="item" items="${anh}" varStatus="status">
+                                    <c:if test="${item.trangThai == 0}">
+                                        <option value="${item.ID}">
+                                            <div  style="background-image:url('/img/logo.jpg');">
+                                                  <img src="${pageContext.request.contextPath}/img/${spct.anh.anh}" style="width:50px; height:50px">
+
+                                            </div>
+                                        </option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon1">
+                                <a href="" class="btn" data-toggle="modal" data-target="#myModalAnh"><i class="fa-solid fa-plus"></i></a>
+                            </span>
+
                         </div>
                     </div>
 
                     <div class="col-4">
                         <label>Sản phẩm</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon2">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addSanPham" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="sanpham.id">
+                            <select aria-label="Default select example" name="sanPham">
                                 <c:forEach var="sanpham" items="${sanpham}" varStatus="status">
                                     <c:if test="${sanpham.trangThai == 0}">
                                         <option value="${sanpham.ID}">${sanpham.tenSanPham}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon2">
+                                <a href="" data-toggle="modal" data-target="#myModalItem" class="btn"><i class="fa-solid fa-plus"></i></a>
+                            </span>
                         </div>
                     </div>
 
                     <div class="col-4">
                         <label>Chất liệu</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon3">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addChatLieu" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="chatlieu.id">
+
+                            <select aria-label="Default select example" name="chatLieu">
                                 <c:forEach var="chatlieu" items="${chatlieu}" varStatus="status">
                                     <c:if test="${chatlieu.trangThai == 0}">
                                         <option value="${chatlieu.ID}">${chatlieu.tenChatLieu}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon3">
+                                <a href="" data-toggle="modal" data-target="#myModalMaterial" class="btn"><i class="fa-solid fa-plus"></i></a>
+                        </span>
                         </div>
                     </div>
 
                     <div class="col-4">
                         <label>Tay áo</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon4">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addTayAo" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="tayao.id">
+
+                            <select aria-label="Default select example" name="tayAo">
                                 <c:forEach var="tayao" items="${tayao}" varStatus="status">
                                     <c:if test="${tayao.trangThai == 0}">
                                         <option value="${tayao.ID}">${tayao.tenKieuTayAo}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon4">
+                                <a href="" data-toggle="modal" data-target="#myModalSleeve" class="btn"><i class="fa-solid fa-plus"></i></a>
+                            </span>
                         </div>
                     </div>
 
                     <div class="col-4">
                         <label>Cổ áo</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon5">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addCoAo" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="coao.id">
+                            <select aria-label="Default select example" name="coAo">
                                 <c:forEach var="coao" items="${coao}" varStatus="status">
                                     <c:if test="${coao.trangThai == 0}">
                                         <option value="${coao.ID}">${coao.tenLoaiCoAo}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon5">
+                                <a href="" data-toggle="modal" data-target="#myModalCollar" class="btn"><i class="fa-solid fa-plus"></i></a>
+                            </span>
                         </div>
                     </div>
 
                     <div class="col-4">
                         <label>Dáng áo</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon6">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addDangAo" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="dangao.id">
+                            <select aria-label="Default select example" name="dangAo">
                                 <c:forEach var="dangao" items="${dangao}" varStatus="status">
                                     <c:if test="${dangao.trangThai == 0}">
                                         <option value="${dangao.ID}">${dangao.tenKieuDangAo}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon6">
+                                <a href="" data-toggle="modal" data-target="#myModalDang" class="btn"><i class="fa-solid fa-plus"></i></a>
+                            </span>
                         </div>
                     </div>
 
                     <div class="col-4">
                         <label>Họa tiết</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon7">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addHoaTiet" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="hoatiet.id">
+                            <select aria-label="Default select example" name="hoaTiet">
                                 <c:forEach var="hoatiet" items="${hoatiet}" varStatus="status">
                                     <c:if test="${hoatiet.trangThai == 0}">
                                         <option value="${hoatiet.ID}">${hoatiet.tenHoaTiet}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon7">
+                                <a href="" data-toggle="modal" data-target="#myModalPatten" class="btn"><i class="fa-solid fa-plus"></i></a>
+                            </span>
                         </div>
                     </div>
 
                     <div class="col-4">
                         <label>Kích cỡ</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon8">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addKichCo" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="kichco.id">
+                            <select aria-label="Default select example" name="kichCo">
                                 <c:forEach var="kichco" items="${kichco}" varStatus="status">
                                     <c:if test="${kichco.trangThai == 0}">
                                         <option value="${kichco.ID}">${kichco.tenKichCo}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon8">
+                                <a href="" data-toggle="modal" data-target="#myModalSize" class="btn"><i class="fa-solid fa-plus"></i></a>
+                            </span>
                         </div>
                     </div>
 
                     <div class="col-4">
                         <label>Màu sắc</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon9">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addMauSac" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="mausac.id">
+                            <select aria-label="Default select example" name="mauSac">
                                 <c:forEach var="mausac" items="${mausac}" varStatus="status">
                                     <c:if test="${mausac.trangThai == 0}">
                                         <option value="${mausac.ID}">${mausac.tenMauSac}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon9">
+                                <a href="" data-toggle="modal" data-target="#myModalColor" class="btn"><i class="fa-solid fa-plus"></i></a>
+                            </span>
                         </div>
                     </div>
 
                     <div class="col-4">
                         <label>Thương hiệu</label>
                         <div class="input-group">
-                    <span class="input-group-text btn btn-outline-success" id="basic-addon10">
-                        <a href="${pageContext.request.contextPath}/SanPhamChiTiet/addThuongHieu" class="btn"><i class="fa-solid fa-plus"></i></a>
-                    </span>
-                            <select class="form-select" aria-label="Default select example" name="thuonghieu.id">
+                            <select aria-label="Default select example" name="thuongHieu">
                                 <c:forEach var="thuonghieu" items="${thuonghieu}" varStatus="status">
                                     <c:if test="${thuonghieu.trangThai == 0}">
                                         <option value="${thuonghieu.ID}">${thuonghieu.tenThuongHieu}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
+                            <span class="input-group-text btn btn-outline-success" id="basic-addon10">
+                                <a href="" data-toggle="modal" data-target="#myModalTrademark" class="btn"><i class="fa-solid fa-plus"></i></a>
+                            </span>
                         </div>
+
                     </div>
 
                     <div class="col-4">
@@ -273,7 +524,7 @@
                         <button type="submit" class="btn btn-outline-success mx-2" onclick="return confirm('Bạn có muốn thêm mới?')">
                             <i class="fa-solid fa-plus"></i> Thêm
                         </button>
-                        <a href="javascript:history.back()" class="btn btn-outline-danger" onclick="return confirm('Bạn có muốn hủy thông tin vừa thêm?')">
+                        <a href="javascript:history.back()" class="btn-outline-danger" onclick="return confirm('Bạn có muốn hủy thông tin vừa thêm?')">
                             <i class="fa-solid fa-arrow-right-from-bracket fa-rotate-180"></i> Hủy
                         </a>
                     </div>
@@ -421,3 +672,34 @@
 
     });
 </script>
+
+<style>
+    select {
+        display: block;
+        width: 75%;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #55595c;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: .25rem !important;
+        margin-bottom: 20px;
+    }
+
+    .input-group{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn:hover {
+        color: #fff;
+        background-color: #fff;
+        border-color: #fff;
+    }
+    .modal-log {
+        width: 600px !important;
+    }
+
+</style>

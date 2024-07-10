@@ -107,7 +107,7 @@ public class SanPhamChiTietController {
         List<SanPham> sanpham = SanPhamChiTietServiceIpm.findSanPhamCreateAt();
         List<TayAo> tayao = SanPhamChiTietServiceIpm.findTayAoCreateAt();
         List<ThuongHieu> thuonghieu = SanPhamChiTietServiceIpm.findThuongHieuCreateAt();
-
+        System.out.println(sanpham.size());
         model.addAttribute("anh", anh);
         model.addAttribute("thuonghieu", thuonghieu);
         model.addAttribute("tayao", tayao);
@@ -124,9 +124,8 @@ public class SanPhamChiTietController {
 
     @PostMapping("/add")
     public String Add(RedirectAttributes redirectAttributes, @ModelAttribute("spct") SanPhamChiTiet spct) {
+
         try {
-
-
             SanPhamChiTietServiceIpm.save(spct);
 
             redirectAttributes.addFlashAttribute("successMessage", "Thêm thành công");
@@ -138,8 +137,8 @@ public class SanPhamChiTietController {
         return "redirect:/SanPhamChiTiet/list";
     }
 
-    @GetMapping("/getId")
-    public String getId(Model model, @RequestParam("id") Long id) {
+    @GetMapping("/{id}")
+    public String getId(Model model, @PathVariable Long id) {
         Optional<SanPhamChiTiet> spct = SanPhamChiTietServiceIpm.findById(id);
         List<Anh> anh = SanPhamChiTietServiceIpm.findAnhCreateAt();
         List<ChatLieu> chatlieu = SanPhamChiTietServiceIpm.findChatLieuCreateAt();
@@ -199,6 +198,7 @@ public class SanPhamChiTietController {
     public String getTrangThai0( @RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
         try {
             SanPhamChiTietServiceIpm.findTrangThai0(id);
+            System.out.println("hihi");
             redirectAttributes.addFlashAttribute("successMessage", "Đổi trạng thái thành công");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Lỗi ");
@@ -233,8 +233,9 @@ public class SanPhamChiTietController {
     public String Add(@ModelAttribute("anh") Anh anh, @RequestParam("photo")MultipartFile multipartFile) throws Exception{
         String fileName= StringUtils.cleanPath(multipartFile.getOriginalFilename());
         anh.setAnh(fileName);
+        System.out.println(fileName);
         anhServiceIpm.save(anh);
-        String upload="static/img";
+        String upload="src/main/webapp/img";
         FileUploadUtil.saveFile(upload,fileName,multipartFile);
         anhServiceIpm.save(anh);
         return "redirect:/SanPhamChiTiet/create";
