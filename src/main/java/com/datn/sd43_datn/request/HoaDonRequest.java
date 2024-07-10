@@ -15,7 +15,7 @@ public class HoaDonRequest {
     private Long tongSp;
     private Long tongTien;
     private String tenKH;
-    private Date ngayTao;
+    private String ngayTao;
     private Boolean loaiHoaDon;
     private String trangThaiDon;
 }

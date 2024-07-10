@@ -185,7 +185,18 @@ public class KhachHangServiceImpl implements KhachHangService {
             }else{
                 gioiTinh = "nữ";
             }
+            String maKhachHang = "";
+            if (khachHang.getID() < 1000) {
+                if (khachHang.getID() < 10) {
+                    maKhachHang = "KH00" + String.valueOf(khachHang.getID());
+                } else if (khachHang.getID() < 100) {
+                    maKhachHang = "KH0" + String.valueOf(khachHang.getID());
+                }
+            } else {
+                maKhachHang = "KH" + String.valueOf(khachHang.getID());
+            }
             if(khachHang.getID().equals(searchLowerCase)||
+                    maKhachHang.toLowerCase().contains(searchLowerCase) ||
                     khachHang.getTenKhachHang().toLowerCase().contains(searchLowerCase) ||
                     khachHang.getEmail().contains(searchLowerCase) ||
                     khachHang.getNgayTao().equals(searchLowerCase) ||
@@ -193,16 +204,7 @@ public class KhachHangServiceImpl implements KhachHangService {
                     gioiTinh.contains(searchLowerCase)
             ){
                 String formattedDate = sdf.format(khachHang.getNgayTao());
-                String maKhachHang = "";
-                if (khachHang.getID() < 1000) {
-                    if (khachHang.getID() < 10) {
-                        maKhachHang = "KH00" + String.valueOf(khachHang.getID());
-                    } else if (khachHang.getID() < 100) {
-                        maKhachHang = "KH0" + String.valueOf(khachHang.getID());
-                    }
-                } else {
-                    maKhachHang = "KH" + String.valueOf(khachHang.getID());
-                }
+
                 KhachHangRequest khachHangRequest = KhachHangRequest.builder()
                         .ID(khachHang.getID())
                         .tenKhachHang(khachHang.getTenKhachHang())

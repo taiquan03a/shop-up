@@ -1,11 +1,13 @@
 package com.datn.sd43_datn.service.impl;
 
+import com.datn.sd43_datn.entity.KhachHang;
 import com.datn.sd43_datn.entity.SanPham;
 import com.datn.sd43_datn.entity.SanPhamChiTiet;
 import com.datn.sd43_datn.entity.ThuocTinhSp.*;
 import com.datn.sd43_datn.repository.SanPhamChiTietRepository;
 import com.datn.sd43_datn.repository.SanPhamRepository;
 import com.datn.sd43_datn.repository.ThuocTinhSpRepository.*;
+import com.datn.sd43_datn.request.KhachHangRequest;
 import com.datn.sd43_datn.service.SanPhamChiTietService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,8 +84,32 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
 
     @Override
     public List<SanPhamChiTiet> findBySanPhamKeyWord(String keyword){
-        return sanphamchitietEntityRepository.findBySanPhamKeyWord(keyword);
+        String searchLowerCase = keyword.toLowerCase();
+        List<SanPhamChiTiet> sanPhamChiTietList = sanPhamChiTietRepository.findAll();
+        List<SanPhamChiTiet> dto = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+        for (SanPhamChiTiet sanPhamChiTiet : sanPhamChiTietList) {
+            if(sanPhamChiTiet.getID().equals(searchLowerCase)||
+                    sanPhamChiTiet.getSanPham().getTenSanPham().toLowerCase().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getHoaTiet().getTenHoaTiet().toLowerCase().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getChatLieu().getTenChatLieu().toLowerCase().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getCoAo().getTenLoaiCoAo().toLowerCase().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getDangAo().getTenKieuDangAo().toLowerCase().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getKichCo().getTenKichCo().toLowerCase().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getMauSac().getTenMauSac().toLowerCase().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getTayAo().getTenKieuTayAo().toLowerCase().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getThuongHieu().getTenThuongHieu().toLowerCase().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getGiaBan().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getGiaNhap().contains(searchLowerCase) ||
+                    sanPhamChiTiet.getSoLuong().equals(searchLowerCase) ||
+                    sanPhamChiTiet.getMoTa().toLowerCase().contains(searchLowerCase)
+            ){
 
+                dto.add(sanPhamChiTiet);
+            }
+        }
+        dto.sort(Comparator.comparingLong(SanPhamChiTiet::getID).reversed());
+        return dto;
     }
     @Override
     public Page<SanPhamChiTiet> sanphamchitietEntityPage(String keyword, int pageNumber) {

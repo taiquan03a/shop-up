@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class HoaDonServiceImpl implements HoaDonService {
                     .tenKH(hoaDon.getKhachHang().getTenKhachHang())
                     .tongSp(tongSl)
                     .tongTien(tongTien)
-                    .ngayTao(hoaDon.getNgayTao())
+                    .ngayTao(String.valueOf(hoaDon.getNgayTao()))
                     .loaiHoaDon(hoaDon.getLoaiHoaDon())
                     .trangThaiDon(hoaDon.getTrangThaiDon().getTenTrangThai())
                     .build();
@@ -244,58 +245,253 @@ public class HoaDonServiceImpl implements HoaDonService {
     }
 
     @Override
-    public List<HoaDonRequest> filterHoaDonRequest(/*String search,*/ String status, String batDau, String ketThuc) throws ParseException {
+    public List<HoaDonRequest> filterHoaDonRequest(String search, String status, String batDau, String ketThuc) throws ParseException {
         List<HoaDon> hoaDons = hoaDonRepository.findAll();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date bd = null, kt = null;
-        if (!batDau.isEmpty() && !ketThuc.isEmpty()) {
+        Date bd = null,kt = null ;
+        if(!batDau.isEmpty() && !ketThuc.isEmpty()){
             bd = formatter.parse(batDau);
             kt = formatter.parse(ketThuc);
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+        if(search != null && status != null && !batDau.isEmpty() && !ketThuc.isEmpty()) {
+            List<HoaDonRequest> hoaDonRequests = new ArrayList<>();
 
-        List<HoaDonRequest> hoaDonRequests = new ArrayList<>();
-        for (HoaDon hoaDon : hoaDons) {
-            boolean match = true;
-
-//            if (search != null && !search.isEmpty()) {
-//                if (!hoaDon.getKhachHang().getTenKhachHang().contains(search)) {
-//                    match = false;
-//                }
-//            }
-
-            if (status != null && !status.isEmpty()) {
-                if (!(hoaDon.getTrangThaiDon().getID() == Long.valueOf(status) || Long.valueOf(status) == 0)) {
-                    match = false;
+            for (HoaDon hoaDon : hoaDons) {
+                if (
+                        (hoaDon.getMaHoaDon().contains(search) ||
+                        hoaDon.getKhachHang().getTenKhachHang().toLowerCase().contains(search.toLowerCase()) ||
+                        hoaDon.getTrangThaiDon().getTenTrangThai().toLowerCase().contains(search.toLowerCase()))&&
+                        (hoaDon.getTrangThaiDon().getID() == Long.valueOf(status) || Long.valueOf(status) == 0)&&
+                        hoaDon.getNgayTao().compareTo(bd) > 0 && hoaDon.getNgayTao().compareTo(kt) < 0) {
+                    System.out.println("hihi");
+                    long tongSl = 0, tongTien = 0;
+                    for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietRepository.findHoaDonChiTietsByHoaDon(hoaDon)) {
+                        tongSl += hoaDonChiTiet.getSoLuong();
+                        tongTien += hoaDonChiTiet.getThanhTien();
+                    }
+                    HoaDonRequest hoaDonRequest = HoaDonRequest.builder()
+                            .ID(hoaDon.getID())
+                            .maHoaDon(hoaDon.getMaHoaDon())
+                            .tenKH(hoaDon.getKhachHang().getTenKhachHang())
+                            .tongSp(tongSl)
+                            .tongTien(tongTien)
+                            .ngayTao(sdf.format(hoaDon.getNgayTao()))
+                            .trangThaiDon(hoaDon.getTrangThaiDon().getTenTrangThai())
+                            .build();
+                    hoaDonRequests.add(hoaDonRequest);
                 }
             }
-
-            if (bd != null && kt != null) {
-                if (!(hoaDon.getNgayTao().compareTo(bd) > 0 && hoaDon.getNgayTao().compareTo(kt) < 0)) {
-                    match = false;
+            hoaDonRequests.sort(new Comparator<HoaDonRequest>() {
+                @Override
+                public int compare(HoaDonRequest o1, HoaDonRequest o2) {
+                    if(o1.getID() < o2.getID()){
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
+            return hoaDonRequests;
+        }else if (search == null && status != null && !batDau.isEmpty() && !ketThuc.isEmpty()) {
+            List<HoaDonRequest> hoaDonRequests = new ArrayList<>();
+            for (HoaDon hoaDon : hoaDons) {
+                if ((hoaDon.getTrangThaiDon().getID() == Long.valueOf(status) || Long.valueOf(status) == 0)&&
+                        hoaDon.getNgayTao().compareTo(bd) > 0 && hoaDon.getNgayTao().compareTo(kt) < 0) {
+                    long tongSl = 0, tongTien = 0;
+                    for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietRepository.findHoaDonChiTietsByHoaDon(hoaDon)) {
+                        tongSl += hoaDonChiTiet.getSoLuong();
+                        tongTien += hoaDonChiTiet.getThanhTien();
+                    }
+                    HoaDonRequest hoaDonRequest = HoaDonRequest.builder()
+                            .ID(hoaDon.getID())
+                            .maHoaDon(hoaDon.getMaHoaDon())
+                            .tenKH(hoaDon.getKhachHang().getTenKhachHang())
+                            .tongSp(tongSl)
+                            .tongTien(tongTien)
+                            .ngayTao(sdf.format(hoaDon.getNgayTao()))
+                            .trangThaiDon(hoaDon.getTrangThaiDon().getTenTrangThai())
+                            .build();
+                    hoaDonRequests.add(hoaDonRequest);
                 }
             }
-
-            if (match) {
-                long tongSl = 0, tongTien = 0;
-                for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietRepository.findHoaDonChiTietsByHoaDon(hoaDon)) {
-                    tongSl += hoaDonChiTiet.getSoLuong();
-                    tongTien += hoaDonChiTiet.getThanhTien();
+            hoaDonRequests.sort(new Comparator<HoaDonRequest>() {
+                @Override
+                public int compare(HoaDonRequest o1, HoaDonRequest o2) {
+                    if(o1.getID() < o2.getID()){
+                        return 1;
+                    }
+                    return -1;
                 }
-                HoaDonRequest hoaDonRequest = HoaDonRequest.builder()
-                        .ID(hoaDon.getID())
-                        .maHoaDon(hoaDon.getMaHoaDon())
-                        .tenKH(hoaDon.getKhachHang().getTenKhachHang())
-                        .tongSp(tongSl)
-                        .tongTien(tongTien)
-                        .loaiHoaDon(hoaDon.getLoaiHoaDon())
-                        .ngayTao(hoaDon.getNgayTao())
-                        .trangThaiDon(hoaDon.getTrangThaiDon().getTenTrangThai())
-                        .build();
-                hoaDonRequests.add(hoaDonRequest);
+            });
+            return hoaDonRequests;
+        } else if (search == null && status == null && !batDau.isEmpty() && !ketThuc.isEmpty()) {
+            List<HoaDonRequest> hoaDonRequests = new ArrayList<>();
+            for (HoaDon hoaDon : hoaDons) {
+                if (hoaDon.getNgayTao().compareTo(bd) > 0 && hoaDon.getNgayTao().compareTo(kt) < 0) {
+                    long tongSl = 0, tongTien = 0;
+                    for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietRepository.findHoaDonChiTietsByHoaDon(hoaDon)) {
+                        tongSl += hoaDonChiTiet.getSoLuong();
+                        tongTien += hoaDonChiTiet.getThanhTien();
+                    }
+                    HoaDonRequest hoaDonRequest = HoaDonRequest.builder()
+                            .ID(hoaDon.getID())
+                            .maHoaDon(hoaDon.getMaHoaDon())
+                            .tenKH(hoaDon.getKhachHang().getTenKhachHang())
+                            .tongSp(tongSl)
+                            .tongTien(tongTien)
+                            .ngayTao(sdf.format(hoaDon.getNgayTao()))
+                            .trangThaiDon(hoaDon.getTrangThaiDon().getTenTrangThai())
+                            .build();
+                    hoaDonRequests.add(hoaDonRequest);
+                }
             }
+            hoaDonRequests.sort(new Comparator<HoaDonRequest>() {
+                @Override
+                public int compare(HoaDonRequest o1, HoaDonRequest o2) {
+                    if(o1.getID() < o2.getID()){
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
+            return hoaDonRequests;
+        }else if (search != null && status == null && batDau.isEmpty() && ketThuc.isEmpty()){
+            List<HoaDonRequest> hoaDonRequests = new ArrayList<>();
+            for (HoaDon hoaDon : hoaDons) {
+                if (
+                (hoaDon.getMaHoaDon().contains(search) ||
+                        hoaDon.getKhachHang().getTenKhachHang().toLowerCase().contains(search.toLowerCase()) ||
+                        hoaDon.getTrangThaiDon().getTenTrangThai().toLowerCase().contains(search.toLowerCase()))
+                ) {
+                    long tongSl = 0, tongTien = 0;
+                    for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietRepository.findHoaDonChiTietsByHoaDon(hoaDon)) {
+                        tongSl += hoaDonChiTiet.getSoLuong();
+                        tongTien += hoaDonChiTiet.getThanhTien();
+                    }
+                    HoaDonRequest hoaDonRequest = HoaDonRequest.builder()
+                            .ID(hoaDon.getID())
+                            .maHoaDon(hoaDon.getMaHoaDon())
+                            .tenKH(hoaDon.getKhachHang().getTenKhachHang())
+                            .tongSp(tongSl)
+                            .tongTien(tongTien)
+                            .ngayTao(sdf.format(hoaDon.getNgayTao()))
+                            .trangThaiDon(hoaDon.getTrangThaiDon().getTenTrangThai())
+                            .build();
+                    hoaDonRequests.add(hoaDonRequest);
+                }
+            }
+            hoaDonRequests.sort(new Comparator<HoaDonRequest>() {
+                @Override
+                public int compare(HoaDonRequest o1, HoaDonRequest o2) {
+                    if(o1.getID() < o2.getID()){
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
+            return hoaDonRequests;
+        } else if (search == null && status != null && batDau.isEmpty() && ketThuc.isEmpty()) {
+            List<HoaDonRequest> hoaDonRequests = new ArrayList<>();
+            for (HoaDon hoaDon : hoaDons) {
+                if (hoaDon.getTrangThaiDon().getID() == Long.valueOf(status) || Long.valueOf(status) == 0) {
+                    long tongSl = 0, tongTien = 0;
+                    for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietRepository.findHoaDonChiTietsByHoaDon(hoaDon)) {
+                        tongSl += hoaDonChiTiet.getSoLuong();
+                        tongTien += hoaDonChiTiet.getThanhTien();
+                    }
+                    HoaDonRequest hoaDonRequest = HoaDonRequest.builder()
+                            .ID(hoaDon.getID())
+                            .maHoaDon(hoaDon.getMaHoaDon())
+                            .tenKH(hoaDon.getKhachHang().getTenKhachHang())
+                            .tongSp(tongSl)
+                            .tongTien(tongTien)
+                            .ngayTao(sdf.format(hoaDon.getNgayTao()))
+                            .trangThaiDon(hoaDon.getTrangThaiDon().getTenTrangThai())
+                            .build();
+                    hoaDonRequests.add(hoaDonRequest);
+                }
+            }
+            hoaDonRequests.sort(new Comparator<HoaDonRequest>() {
+                @Override
+                public int compare(HoaDonRequest o1, HoaDonRequest o2) {
+                    if(o1.getID() < o2.getID()){
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
+            return hoaDonRequests;
+        }else if (search != null && status == null && !batDau.isEmpty() && !ketThuc.isEmpty()) {
+            List<HoaDonRequest> hoaDonRequests = new ArrayList<>();
+            for (HoaDon hoaDon : hoaDons) {
+                if ((hoaDon.getMaHoaDon().contains(search) ||
+                        hoaDon.getKhachHang().getTenKhachHang().toLowerCase().contains(search.toLowerCase()) ||
+                        hoaDon.getTrangThaiDon().getTenTrangThai().toLowerCase().contains(search.toLowerCase())) &&
+                        hoaDon.getNgayTao().compareTo(bd) > 0 && hoaDon.getNgayTao().compareTo(kt) < 0) {
+                    long tongSl = 0, tongTien = 0;
+                    for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietRepository.findHoaDonChiTietsByHoaDon(hoaDon)) {
+                        tongSl += hoaDonChiTiet.getSoLuong();
+                        tongTien += hoaDonChiTiet.getThanhTien();
+                    }
+                    HoaDonRequest hoaDonRequest = HoaDonRequest.builder()
+                            .ID(hoaDon.getID())
+                            .maHoaDon(hoaDon.getMaHoaDon())
+                            .tenKH(hoaDon.getKhachHang().getTenKhachHang())
+                            .tongSp(tongSl)
+                            .tongTien(tongTien)
+                            .ngayTao(sdf.format(hoaDon.getNgayTao()))
+                            .trangThaiDon(hoaDon.getTrangThaiDon().getTenTrangThai())
+                            .build();
+                    hoaDonRequests.add(hoaDonRequest);
+                }
+            }
+            hoaDonRequests.sort(new Comparator<HoaDonRequest>() {
+                @Override
+                public int compare(HoaDonRequest o1, HoaDonRequest o2) {
+                    if(o1.getID() < o2.getID()){
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
+            return hoaDonRequests;
+        } else if (search != null && status != null && batDau.isEmpty() && ketThuc.isEmpty()) {
+            List<HoaDonRequest> hoaDonRequests = new ArrayList<>();
+            for (HoaDon hoaDon : hoaDons) {
+                if ((hoaDon.getMaHoaDon().contains(search) ||
+                        hoaDon.getKhachHang().getTenKhachHang().toLowerCase().contains(search.toLowerCase()) ||
+                        hoaDon.getTrangThaiDon().getTenTrangThai().toLowerCase().contains(search.toLowerCase())) &&
+                        (hoaDon.getTrangThaiDon().getID() == Long.valueOf(status) || Long.valueOf(status) == 0)) {
+                    long tongSl = 0, tongTien = 0;
+                    for (HoaDonChiTiet hoaDonChiTiet : hoaDonChiTietRepository.findHoaDonChiTietsByHoaDon(hoaDon)) {
+                        tongSl += hoaDonChiTiet.getSoLuong();
+                        tongTien += hoaDonChiTiet.getThanhTien();
+                    }
+                    HoaDonRequest hoaDonRequest = HoaDonRequest.builder()
+                            .ID(hoaDon.getID())
+                            .maHoaDon(hoaDon.getMaHoaDon())
+                            .tenKH(hoaDon.getKhachHang().getTenKhachHang())
+                            .tongSp(tongSl)
+                            .tongTien(tongTien)
+                            .ngayTao(sdf.format(hoaDon.getNgayTao()))
+                            .trangThaiDon(hoaDon.getTrangThaiDon().getTenTrangThai())
+                            .build();
+                    hoaDonRequests.add(hoaDonRequest);
+                }
+            }
+            hoaDonRequests.sort(new Comparator<HoaDonRequest>() {
+                @Override
+                public int compare(HoaDonRequest o1, HoaDonRequest o2) {
+                    if(o1.getID() < o2.getID()){
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
+            return hoaDonRequests;
         }
-        return hoaDonRequests;
+        return null;
     }
 
 

@@ -80,17 +80,14 @@
         <!-- content -->
         <div style="width: 100%; background-color: #eee; padding: 20px;">
             <h3>Quản lí sản phẩm chi tiết</h3>
-            <form action="/hoa-don/filter">
                 <div class="filter">
                     <div class="w-100 first">
                         <div>
                             Trạng thái:
-                            <select name="status" id="status">
-                                <option value="0">Tất cả đơn hàng</option>
-                                <c:forEach var="trangThai" items="${trangThais}">
-                                    <option value="${trangThai.ID}">${trangThai.tenTrangThai}</option>
-
-                                </c:forEach>
+                            <select name="status" id="status" onchange="filterStatus()">
+                                <option value="">Tất cả</option>
+                                <option value="0">Hoạt động</option>
+                                <option value="1">Ngừng hoạt động</option>
                             </select>
                         </div>
                         <div class="d-flex justify-content-between gap-4">
@@ -98,17 +95,16 @@
                         </div>
                     </div>
 
-                    <div class="w-100 second mt-4">
-                        <div class="align-items-center w-50 date">
-                            Từ ngày:
-                            <input name="batDau" type="date" placeholder="Từ ngày">
-                            Đến ngày:
-                            <input name="ketThuc" type="date" placeholder="Đến ngày">
+                    <form action="filter">
+                        <div class="w-100 second mt-4">
+                            <div class="text-container align-items-center">
+                                <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+                                <input type="text" name="keyword" id="search-input" placeholder="Tìm kiếm hóa đơn">
+                            </div>
+                            <button type="submit" class="function">Tìm kiếm</button>
                         </div>
-                        <button type="submit" class="function">Tìm kiếm</button>
-                    </div>
+                    </form>
                 </div>
-            </form>
             <div class="w-100 mt-5 d-flex justify-content-center align-items-center" style="background-color: #fff; border-radius: 10px;">
                 <table id="example" class="table table-striped p-5" style="width:100%">
                     <thead>
@@ -152,12 +148,12 @@
                             <div class="d-flex align-items-center justify-content-center h-100">
                                 <c:choose>
                                     <c:when test="${spct.trangThai == 1}">
-                                        <a data-confirm-delete="Bạn có muốn đổi trạng thái?" onclick="return confirm(this.getAttribute('data-confirm-delete'))" href="trangThai1?id=${spct.ID}">
+                                        <a data-confirm-delete="Bạn có muốn đổi trạng thái?" id="1" onclick="return confirm(this.getAttribute('data-confirm-delete'))" href="trangThai1?id=${spct.ID}">
                                             <i class="fa-solid fa-toggle-off fa-xl"></i>
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a data-confirm-delete="Bạn có muốn đổi trạng thái?" onclick="return confirm(this.getAttribute('data-confirm-delete'))" href="trangThai1?id=${spct.ID}">
+                                        <a data-confirm-delete="Bạn có muốn đổi trạng thái?" id="0" onclick="return confirm(this.getAttribute('data-confirm-delete'))" href="trangThai1?id=${spct.ID}">
                                             <i class="fa-solid fa-toggle-on fa-xl"></i>
                                         </a>
                                     </c:otherwise>
@@ -203,5 +199,26 @@
             infoEmpty: "Không có hóa đơn nào",
         }
     });
+
+</script>
+<script>
+    function filterStatus() {
+        const selectedStatus = document.getElementById("status").value;
+        const rows = document.querySelectorAll("table tr"); // Giả sử các hàng dữ liệu nằm trong một bảng
+
+        rows.forEach(row => {
+            const statusElement = row.querySelector("a[data-confirm-delete]"); // Giả sử phần tử trạng thái là thẻ <a>
+
+            if (statusElement) {
+                const status = statusElement.getAttribute("id"); // Lấy giá trị trạng thái
+
+                if (selectedStatus === "" || status === selectedStatus) {
+                    row.style.display = ""; // Hiển thị hàng
+                } else {
+                    row.style.display = "none"; // Ẩn hàng
+                }
+            }
+        });
+    }
 
 </script>

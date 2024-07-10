@@ -338,11 +338,8 @@
                             <select aria-label="Default select example" name="anh">
                                 <c:forEach var="item" items="${anh}" varStatus="status">
                                     <c:if test="${item.trangThai == 0}">
-                                        <option value="${spct.anh.ID}">
-                                            <div  style="background-image:url('/img/logo.jpg');">
-                                                <img src="${pageContext.request.contextPath}/img/${item.anh}" style="width:50px; height:50px">
-
-                                            </div>
+                                        <option value="${item.ID}">
+                                            ${item.anh}
                                         </option>
                                     </c:if>
                                 </c:forEach>

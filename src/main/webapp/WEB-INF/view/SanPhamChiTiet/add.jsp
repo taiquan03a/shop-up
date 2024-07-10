@@ -339,10 +339,7 @@
                                 <c:forEach var="item" items="${anh}" varStatus="status">
                                     <c:if test="${item.trangThai == 0}">
                                         <option value="${item.ID}">
-                                            <div  style="background-image:url('/img/logo.jpg');">
-                                                  <img src="${pageContext.request.contextPath}/img/${spct.anh.anh}" style="width:50px; height:50px">
-
-                                            </div>
+                                            ${item.anh}
                                         </option>
                                     </c:if>
                                 </c:forEach>

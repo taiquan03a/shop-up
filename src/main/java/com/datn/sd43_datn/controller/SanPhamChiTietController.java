@@ -8,6 +8,7 @@ import com.datn.sd43_datn.entity.ThuocTinhSp.*;
 import com.datn.sd43_datn.service.SanPhamChiTietService;
 import com.datn.sd43_datn.service.SanPhamService;
 import com.datn.sd43_datn.service.ThuocTinhSpService.*;
+import com.datn.sd43_datn.service.impl.SanPhamChiTietServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -47,6 +48,8 @@ public class SanPhamChiTietController {
     ThuongHieuService ThuongHieuServiceIpm;
     @Autowired
     KichCoService KichCoServiceIpm;
+    @Autowired
+    private SanPhamChiTietServiceImpl sanPhamChiTietServiceImpl;
 
     @GetMapping("/list")
 
@@ -59,7 +62,7 @@ public class SanPhamChiTietController {
 
     }
 
-    @RequestMapping("/list/page/{pageNumber}")
+    @RequestMapping("/list")
     public String pageKeyword(Model model, @Param("keyword") String keyword,
                               @PathVariable("pageNumber") int pageNumber) {
         Page<SanPhamChiTiet> page = SanPhamChiTietServiceIpm.sanphamchitietEntityPage(keyword, pageNumber);
@@ -92,11 +95,14 @@ public class SanPhamChiTietController {
         return "SanPhamChiTiet/list";
 
     }
-
+    @GetMapping("filter")
+    public String filter(@RequestParam("keyword") String keyword, Model model) {
+        model.addAttribute("spct", sanPhamChiTietServiceImpl.findBySanPhamKeyWord(keyword));
+        return "SanPhamChiTiet/list";
+    }
     @GetMapping("/create")
     public String create(Model model) {
         SanPhamChiTiet spct = new SanPhamChiTiet();
-
         List<Anh> anh = SanPhamChiTietServiceIpm.findAnhCreateAt();
         List<ChatLieu> chatlieu = SanPhamChiTietServiceIpm.findChatLieuCreateAt();
         List<CoAo> coao = SanPhamChiTietServiceIpm.findCoAoCreateAt();
