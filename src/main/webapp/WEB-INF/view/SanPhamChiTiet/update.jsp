@@ -117,16 +117,19 @@
             <div class="modal fade" id="myModalItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-log modal-dialog-centered mt-4" role="document">
                     <div class="modal-content">
-                        <form:form action="" modelAttribute="diaChiRequest" method="post">
+                        <form:form action="addSanPham/${spct.ID}" modelAttribute="sanpham" method="post">
                             <div class="modal-header d-flex justify-content-between">
                                 <h4 class="modal-title">Thêm sản phẩm</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label class="form-label">Tên sản phẩm</label>
-                                    <input type="text" name="input" class="form-control" required>
+                                    <input type="text" name="tenSanPham" class="form-control" required>
                                 </div>
-
+                                <div class="mb-3">
+                                    <label class="form-label">Tên sản phẩm</label>
+                                    <input type="text" name="moTa" class="form-control" required>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn-secondary">Lưu</button>
@@ -338,7 +341,7 @@
                             <select aria-label="Default select example" name="anh">
                                 <c:forEach var="item" items="${anh}" varStatus="status">
                                     <c:if test="${item.trangThai == 0}">
-                                        <option value="${item.ID}">
+                                        <option value="${item.ID}" <c:if test="${item.ID == spct.anh.ID}">selected</c:if>>
                                             ${item.anh}
                                         </option>
                                     </c:if>
@@ -357,7 +360,7 @@
                             <select aria-label="Default select example" name="sanPham">
                                 <c:forEach var="sanpham" items="${sanpham}" varStatus="status">
                                     <c:if test="${sanpham.trangThai == 0}">
-                                        <option value="${sanpham.ID}">${sanpham.tenSanPham}</option>
+                                        <option value="${sanpham.ID}" <c:if test="${sanpham.ID == spct.sanPham.ID}">selected</c:if>>${sanpham.tenSanPham}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -374,7 +377,7 @@
                             <select aria-label="Default select example" name="chatLieu">
                                 <c:forEach var="chatlieu" items="${chatlieu}" varStatus="status">
                                     <c:if test="${chatlieu.trangThai == 0}">
-                                        <option value="${chatlieu.ID}">${chatlieu.tenChatLieu}</option>
+                                        <option value="${chatlieu.ID}" <c:if test="${chatlieu.ID == spct.chatLieu.ID}">selected</c:if>>${chatlieu.tenChatLieu}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -391,7 +394,7 @@
                             <select aria-label="Default select example" name="tayAo">
                                 <c:forEach var="tayao" items="${tayao}" varStatus="status">
                                     <c:if test="${tayao.trangThai == 0}">
-                                        <option value="${tayao.ID}">${tayao.tenKieuTayAo}</option>
+                                        <option value="${tayao.ID}" <c:if test="${tayao.ID == spct.tayAo.ID}">selected</c:if>>${tayao.tenKieuTayAo}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -407,7 +410,7 @@
                             <select aria-label="Default select example" name="coAo">
                                 <c:forEach var="coao" items="${coao}" varStatus="status">
                                     <c:if test="${coao.trangThai == 0}">
-                                        <option value="${coao.ID}">${coao.tenLoaiCoAo}</option>
+                                        <option value="${coao.ID}" <c:if test="${coao.ID == spct.coAo.ID}">selected</c:if>>${coao.tenLoaiCoAo}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -423,7 +426,7 @@
                             <select aria-label="Default select example" name="dangAo">
                                 <c:forEach var="dangao" items="${dangao}" varStatus="status">
                                     <c:if test="${dangao.trangThai == 0}">
-                                        <option value="${dangao.ID}">${dangao.tenKieuDangAo}</option>
+                                        <option value="${dangao.ID}" <c:if test="${dangao.ID == spct.dangAo.ID}">selected</c:if>>${dangao.tenKieuDangAo}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -439,7 +442,7 @@
                             <select aria-label="Default select example" name="hoaTiet">
                                 <c:forEach var="hoatiet" items="${hoatiet}" varStatus="status">
                                     <c:if test="${hoatiet.trangThai == 0}">
-                                        <option value="${hoatiet.ID}">${hoatiet.tenHoaTiet}</option>
+                                        <option value="${hoatiet.ID}" <c:if test="${hoatiet.ID == spct.hoaTiet.ID}">selected</c:if>>${hoatiet.tenHoaTiet}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -455,7 +458,7 @@
                             <select aria-label="Default select example" name="kichCo">
                                 <c:forEach var="kichco" items="${kichco}" varStatus="status">
                                     <c:if test="${kichco.trangThai == 0}">
-                                        <option value="${kichco.ID}">${kichco.tenKichCo}</option>
+                                        <option value="${kichco.ID}" <c:if test="${kichco.ID == spct.kichCo.ID}">selected</c:if>>${kichco.tenKichCo}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -471,7 +474,7 @@
                             <select aria-label="Default select example" name="mauSac">
                                 <c:forEach var="mausac" items="${mausac}" varStatus="status">
                                     <c:if test="${mausac.trangThai == 0}">
-                                        <option value="${mausac.ID}">${mausac.tenMauSac}</option>
+                                        <option value="${mausac.ID}" <c:if test="${mausac.ID == spct.mauSac.ID}">selected</c:if>>${mausac.tenMauSac}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -487,7 +490,7 @@
                             <select aria-label="Default select example" name="thuongHieu">
                                 <c:forEach var="thuonghieu" items="${thuonghieu}" varStatus="status">
                                     <c:if test="${thuonghieu.trangThai == 0}">
-                                        <option value="${thuonghieu.ID}">${thuonghieu.tenThuongHieu}</option>
+                                        <option value="${thuonghieu.ID}" <c:if test="${thuonghieu.ID == spct.thuongHieu.ID}">selected</c:if>>${thuonghieu.tenThuongHieu}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>

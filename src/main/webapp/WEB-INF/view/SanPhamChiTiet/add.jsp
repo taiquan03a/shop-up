@@ -117,16 +117,19 @@
             <div class="modal fade" id="myModalItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-log modal-dialog-centered mt-4" role="document">
                     <div class="modal-content">
-                        <form:form action="" modelAttribute="diaChiRequest" method="post">
+                        <form:form action="addSanPham" modelAttribute="sanpham" method="post">
                             <div class="modal-header d-flex justify-content-between">
                                 <h4 class="modal-title">Thêm sản phẩm</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label class="form-label">Tên sản phẩm</label>
-                                    <input type="text" name="input" class="form-control" required>
+                                    <input type="text" name="tenSanPham" class="form-control" required>
                                 </div>
-
+                                <div class="mb-3">
+                                    <label class="form-label">Mô tả</label>
+                                    <input type="text" name="moTa" class="form-control" required>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn-secondary">Lưu</button>

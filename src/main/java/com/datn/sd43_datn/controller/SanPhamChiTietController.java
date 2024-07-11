@@ -342,7 +342,10 @@ public class SanPhamChiTietController {
 
     @PostMapping("/addSanPham/{id}")
     public String Add(@ModelAttribute("sanpham") SanPham sanpham,@PathVariable long id){
-
+        sanpham.setNgayTao(new Date(System.currentTimeMillis()));
+        sanpham.setNguoiTao("nhân viên");
+        sanpham.setTrangThai(0);
+        System.out.println(sanpham);
         SanPhamServiceIpm.save(sanpham);
         return "redirect:/SanPhamChiTiet/getId?id="+id;
     }
@@ -474,7 +477,10 @@ public class SanPhamChiTietController {
 
     @PostMapping("/addSanPham")
     public String Add(@ModelAttribute("sanpham") SanPham sanpham){
-
+        sanpham.setNgayTao(new Date(System.currentTimeMillis()));
+        sanpham.setNguoiTao("nhân viên");
+        sanpham.setTrangThai(0);
+        System.out.println(sanpham);
         SanPhamServiceIpm.save(sanpham);
         return "redirect:/SanPhamChiTiet/create";
     }
